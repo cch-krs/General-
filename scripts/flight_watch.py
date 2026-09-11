@@ -300,8 +300,14 @@ class SerpApiProvider:
         best = min(cands, key=lambda c: c["price"])
         best["raw_count"] = len(cands)
         best["insights"] = normalize_insights(data.get("price_insights"))
-        best.update(self._fare_ladder(params, best.pop("booking_token", None), what))
         return best
+
+    def fare_ladder(self, origin: str, dest: str, date: str, currency: str, token: Optional[str]) -> dict:
+        """Resolve one flight's booking token into its fare ladder. Called once per
+        leg — for the date the leg actually picks — because on the free SerpApi tier
+        every call counts, and the alternate dates only need a price to be ranked."""
+        return self._fare_ladder(self._params(origin, dest, date, currency), token,
+                                 f"{origin}-{dest} {date}")
 
     def _fare_ladder(self, params: dict, token: Optional[str], what: str) -> dict:
         """Second call: every fare class sold on the chosen flight, plus a Google
@@ -445,8 +451,8 @@ def price_leg(provider, leg: dict, currency: str, today: dt.date) -> dict:
             r.setdefault("main", None)
             r.setdefault("insights", None)
             r["link"] = google_flights_url(leg["from"], leg["to"], d)
-            r["flight_link"] = r.pop("deep_link", None) or r["link"]
-            r["main_price"] = r["main"]["price"] if r.get("main") else None
+            r["flight_link"] = r["link"]
+            r["main_price"] = None
             r["outlook"] = drop_outlook(r.get("insights"), r["price"], d, today)
             per_date[d] = r
         except ProviderError as e:
@@ -454,6 +460,14 @@ def price_leg(provider, leg: dict, currency: str, today: dt.date) -> dict:
         time.sleep(float(os.environ.get("FLIGHT_WATCH_SLEEP", "0.6")))
 
     best = min(per_date.values(), key=lambda r: r["price"]) if per_date else None
+    if best is not None and hasattr(provider, "fare_ladder"):
+        ladder = provider.fare_ladder(leg["from"], leg["to"], best["date"], currency,
+                                      best.pop("booking_token", None))
+        best.update(ladder)
+        best["flight_link"] = ladder.get("deep_link") or best["link"]
+        best["main_price"] = best["main"]["price"] if best.get("main") else None
+    for r in per_date.values():
+        r.pop("booking_token", None)
     mains = [r for r in per_date.values() if r.get("main_price") is not None]
     best_main = min(mains, key=lambda r: r["main_price"]) if mains else None
     decide = best_main or best
@@ -748,8 +762,10 @@ def _leg_row(l: dict, cur: str) -> str:
         bits = []
         for d in sorted(others):
             r = l["per_date"][d]
-            pv = r.get("main_price") if r.get("main_price") is not None else r.get("price")
-            bits.append(f'{pretty_date(d)} {fmt_money(pv, cur)}')
+            if r.get("main_price") is not None:
+                bits.append(f'{pretty_date(d)} {fmt_money(r["main_price"], cur)}')
+            else:
+                bits.append(f'{pretty_date(d)} {fmt_money(r.get("price"), cur)} basic')
         alt = f'<span class="l-alt">also: {html.escape("; ".join(bits))}</span>'
 
     ol = l.get("outlook") or {}
