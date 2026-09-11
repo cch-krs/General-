@@ -620,6 +620,17 @@ def maybe_rebaseline(config: dict, provider_family: str, legs_by_option: dict) -
     return changed
 
 
+def slim(result: dict) -> None:
+    """Drop the raw price series from the published result, keeping the summary."""
+    for opt in result.get("options", []):
+        for leg in opt.get("legs", []):
+            for row in list(leg.get("per_date", {}).values()) + [leg.get("best"), leg.get("best_main")]:
+                ins = (row or {}).get("insights")
+                if isinstance(ins, dict) and ins.get("history"):
+                    ins["history_points"] = len(ins["history"])
+                    ins.pop("history")
+
+
 def run_check(config_path: str, out_dir: str, history_path: Optional[str]) -> dict:
     with open(config_path) as f:
         config = json.load(f)
@@ -662,6 +673,10 @@ def run_check(config_path: str, out_dir: str, history_path: Optional[str]) -> di
     history = history[-180:]
     with open(history_path, "w") as f:
         json.dump(history, f, indent=1)
+    # Google's raw price history is ~60 points per leg-date and is only ever read to
+    # build the outlook, which is already computed. Keeping it would add ~180KB to the
+    # published result on every run, so the derived summary stays and the series goes.
+    slim(result)
     with open(os.path.join(out_dir, "result.json"), "w") as f:
         json.dump(result, f, indent=2)
     render(result, history, out_dir)
