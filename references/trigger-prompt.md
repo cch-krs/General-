@@ -25,13 +25,21 @@ https://claude.ai/code/artifact/e389354c-10fc-4dfe-8604-15a6aaa80728
 CHECKER — use the forked script in the cch-krs/Flight repo, NOT the skill's own copy.
 The fork prices main cabin (the skill's copy prices basic economy, which the trip
 rules exclude), links to specific flights, and decides BOOK_NOW vs HOLD on whether
-the fare still has room to fall. In order:
-  1. if /home/user/Flight/scripts/flight_watch.py exists, use it;
-  2. else `git clone --depth 1 https://github.com/cch-krs/Flight /tmp/fw` and use
-     /tmp/fw/scripts/flight_watch.py;
-  3. only if neither works, fall back to the skill's copy AND say plainly in both the
-     notification and the session reply that the fork was unreachable, so the page is
-     showing basic-economy fares against main-cabin ceilings.
+the fare still has room to fall. It lives on the branch
+`claude/flight-watch-daily-check-gm7lou`, NOT on main — a plain clone gets the old
+script. In order:
+  1. if /home/user/Flight is a git repo:
+     cd /home/user/Flight && git fetch origin claude/flight-watch-daily-check-gm7lou \
+       && git checkout claude/flight-watch-daily-check-gm7lou
+     then use /home/user/Flight/scripts/flight_watch.py;
+  2. else: git clone --depth 1 -b claude/flight-watch-daily-check-gm7lou \
+       https://github.com/cch-krs/Flight /tmp/fw
+     and use /tmp/fw/scripts/flight_watch.py;
+  3. confirm you have the fork before running it — `grep -c drop_outlook <path>` must
+     be non-zero. If it is zero, or neither checkout worked, fall back to the skill's
+     copy AND say plainly in both the notification and the session reply that the fork
+     was unreachable, so the page is showing basic-economy fares against main-cabin
+     ceilings.
 
 DIAGNOSTICS FIRST — run this exact command and keep its output:
 echo "key_set=$([ -n "$SERPAPI_KEY" ] && echo yes || echo no)"; curl -sS -o /dev/null -m 15 -w "serpapi_http=%{http_code}\n" https://serpapi.com/ || echo "serpapi_http=unreachable"
