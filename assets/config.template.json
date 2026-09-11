@@ -1,0 +1,44 @@
+{
+  "trip_name": "NYC → Somewhere, Month 2027",
+  "slug": "somewhere-2027",
+  "currency": "USD",
+  "decision_date": "2027-02-01",
+  "baseline_source": null,
+  "rules": [
+    "Book the whole trip at once or not at all — never a single leg.",
+    "Cash fares only — no points redemptions.",
+    "Nonstop, main cabin. Basic economy is not a fare."
+  ],
+  "tripwires": {
+    "total_over_baseline": 100,
+    "price_drop_alert": 40
+  },
+  "options": [
+    {
+      "id": "A",
+      "label": "Outbound first",
+      "baseline_total": null,
+      "legs": [
+        {
+          "id": "A1",
+          "label": "Out",
+          "from": "JFK",
+          "to": "XXX",
+          "dates": ["2027-03-10", "2027-03-09", "2027-03-11"],
+          "baseline": null,
+          "max_price": 450,
+          "note": "First date is the primary; the others are acceptable alternates — the cheapest wins."
+        },
+        {
+          "id": "A2",
+          "label": "Home",
+          "from": "XXX",
+          "to": "JFK",
+          "dates": ["2027-03-17"],
+          "baseline": null,
+          "max_price": null
+        }
+      ]
+    }
+  ]
+}
