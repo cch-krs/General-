@@ -80,6 +80,20 @@ the first run that reads main-cabin fares. Main-cabin baselines cannot be
 back-derived from the September headline baselines, so drift is measured from the
 day they were seeded.
 
+## How the routine gets this code
+
+A routine-fired session has no GitHub credentials, so it cannot clone this repo — on
+2026-09-11 a rehearsal proved it: the run fell back to the skill's stock script and
+republished basic-economy fares over the main-cabin page without erroring. So
+`scripts/flight_watch.py` and `assets/page.template.html` are **published as
+supporting files on the artifact itself**, and each run reads them exactly the way it
+already reads `config.json`. The repo stays the source of truth for humans and
+review; the artifact is the delivery channel for the run.
+
+**When you change the script here, republish it to the artifact** — otherwise the
+daily run keeps executing the old copy. The run's own republish omits those two files
+from its `files` map, so they are preserved rather than overwritten.
+
 ## Running it by hand
 
 ```bash

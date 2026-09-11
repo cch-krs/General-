@@ -22,24 +22,26 @@ WATCH PAGE (read it, read its files config.json + history.json, run the check,
 republish to this same URL with config.json, history.json, result.json as files):
 https://claude.ai/code/artifact/e389354c-10fc-4dfe-8604-15a6aaa80728
 
-CHECKER — use the forked script in the cch-krs/Flight repo, NOT the skill's own copy.
-The fork prices main cabin (the skill's copy prices basic economy, which the trip
-rules exclude), links to specific flights, and decides BOOK_NOW vs HOLD on whether
-the fare still has room to fall. It lives on the branch
-`claude/flight-watch-daily-check-gm7lou`, NOT on main — a plain clone gets the old
-script. In order:
-  1. if /home/user/Flight is a git repo:
-     cd /home/user/Flight && git fetch origin claude/flight-watch-daily-check-gm7lou \
-       && git checkout claude/flight-watch-daily-check-gm7lou
-     then use /home/user/Flight/scripts/flight_watch.py;
-  2. else: git clone --depth 1 -b claude/flight-watch-daily-check-gm7lou \
-       https://github.com/cch-krs/Flight /tmp/fw
-     and use /tmp/fw/scripts/flight_watch.py;
-  3. confirm you have the fork before running it — `grep -c drop_outlook <path>` must
-     be non-zero. If it is zero, or neither checkout worked, fall back to the skill's
-     copy AND say plainly in both the notification and the session reply that the fork
-     was unreachable, so the page is showing basic-economy fares against main-cabin
-     ceilings.
+CHECKER — the checker ships WITH the page, as artifact files. A routine session has
+no GitHub credentials, so it cannot clone this repo; that was tried on 2026-09-11 and
+the run silently fell back to the skill's stock script, republishing basic-economy
+fares over the main-cabin page. `scripts/flight_watch.py` and
+`assets/page.template.html` are therefore published as supporting files on the
+artifact, and the run reads them the same way it reads config.json.
+
+Step 1. `Artifact action:read` the page, then `action:read_file` config.json,
+history.json, scripts/flight_watch.py and assets/page.template.html, letting them
+save to the default scratchpad location — that preserves the scripts/ + assets/
+layout the script resolves its template through.
+
+Step 2. cd there and verify: `grep -c drop_outlook scripts/flight_watch.py` must be
+non-zero. Zero, or a missing file, is a CHECK_FAILED — never fall back to the skill's
+copy.
+
+Step 3. python3 scripts/flight_watch.py check --config config.json --out . --history history.json
+
+Step 4. Republish index.html with files config.json, history.json, result.json only.
+Omitted files are kept, so the script and template survive untouched.
 
 DIAGNOSTICS FIRST — run this exact command and keep its output:
 echo "key_set=$([ -n "$SERPAPI_KEY" ] && echo yes || echo no)"; curl -sS -o /dev/null -m 15 -w "serpapi_http=%{http_code}\n" https://serpapi.com/ || echo "serpapi_http=unreachable"
