@@ -663,8 +663,26 @@ def run_check(config_path: str, out_dir: str, history_path: Optional[str]) -> di
         result = {"checked_at": ts.isoformat(), "provider": provider.name,
                   "provider_family": provider.family, **ev, "config": config}
 
+    # Notify only when the call actually changes. BOOK_NOW, GOOD_SIGN and
+    # CHECK_FAILED are always news. HOLD is not: a ceiling can stay broken for
+    # weeks, and a daily push saying the same thing trains the reader to ignore
+    # it — so HOLD speaks only when it is new, or when a different leg breaks.
+    prev = history[-1] if history else None
+    sig = sorted({f.get("scope") for f in result.get("fired_detail", []) if f.get("scope")})
+    decision = result["decision"]
+    if decision == "WAIT":
+        notify = False
+    elif decision == "HOLD":
+        notify = (prev is None or prev.get("decision") != "HOLD"
+                  or prev.get("fired_sig") != sig)
+    else:
+        notify = True
+    result["notify"] = notify
+    result["fired_sig"] = sig
+
     # history: compact row per run
     history.append({
+        "fired_sig": sig,
         "ts": ts.isoformat(), "decision": result["decision"], "provider": result.get("provider"),
         "totals": {o["id"]: o["total"] for o in result.get("options", [])},
         "totals_headline": {o["id"]: o.get("total_headline") for o in result.get("options", [])},
