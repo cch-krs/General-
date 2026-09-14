@@ -1,0 +1,175 @@
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F3F5F7; --surface: #FFFFFF; --surface-2: #EAEEF2;
+    --ink: #16202A; --muted: #5C6975; --line: #D5DBE1;
+    --accent: #B98A0E; --accent-ink: #1A1408;
+    --good: #1F8A5B; --warn: #B8641C; --critical: #B4262B; --neutral: #3B4C5C;
+    --good-bg: #E3F3EA; --warn-bg: #F8EADB; --critical-bg: #F8E1E2; --neutral-bg: #E4E9EE;
+    --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+    --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1720; --surface: #17222D; --surface-2: #1F2B37;
+      --ink: #E6EBF0; --muted: #94A1AD; --line: #28323D;
+      --accent: #F2B928; --accent-ink: #1A1408;
+      --good: #3DBA80; --warn: #E08A3C; --critical: #E5555B; --neutral: #A9B6C2;
+      --good-bg: #163326; --warn-bg: #3A2612; --critical-bg: #3D1A1D; --neutral-bg: #222E3A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1720; --surface: #17222D; --surface-2: #1F2B37;
+    --ink: #E6EBF0; --muted: #94A1AD; --line: #28323D;
+    --accent: #F2B928; --accent-ink: #1A1408;
+    --good: #3DBA80; --warn: #E08A3C; --critical: #E5555B; --neutral: #A9B6C2;
+    --good-bg: #163326; --warn-bg: #3A2612; --critical-bg: #3D1A1D; --neutral-bg: #222E3A;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+  .wrap { max-width: 860px; margin: 0 auto; padding-block: 20px 48px; padding-inline: 16px; }
+  a { color: inherit; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .eyebrow { font-family: var(--body); font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: .005em; }
+  h1 { font-size: 30px; font-weight: 600; line-height: 1.05; }
+  h2 { font-size: 24px; font-weight: 600; line-height: 1.1; }
+  h3 { font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 10px; }
+
+  /* masthead */
+  .mast { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 14px; }
+  .mast .meta { color: var(--muted); font-size: 13px; }
+
+  /* decision board — the one loud object on the page */
+  .board { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; align-items: center;
+           padding: 18px 20px; border-radius: 6px; margin-bottom: 22px;
+           background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--neutral); }
+  .board.critical { border-left-color: var(--critical); background: var(--critical-bg); }
+  .board.good     { border-left-color: var(--good); }
+  .board.warn     { border-left-color: var(--warn); background: var(--warn-bg); }
+  .board .word { font-family: var(--display); font-weight: 700; font-size: 56px; line-height: .9; letter-spacing: .01em; grid-row: span 2; }
+  .board.critical .word { color: var(--critical); }
+  .board.warn .word { color: var(--warn); }
+  .board.good .word, .board.neutral .word { color: var(--ink); }
+  .board .sub { font-weight: 600; }
+  .board .headline { color: var(--muted); font-size: 14px; max-width: 62ch; }
+
+  /* options */
+  .options { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 26px; }
+  .option { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px 6px; }
+  .option-better { box-shadow: inset 0 0 0 1px var(--accent); }
+  .opt-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .opt-total { text-align: right; display: grid; justify-items: end; line-height: 1.15; }
+  .opt-total .total { font-family: var(--display); font-weight: 700; font-size: 34px; }
+  .opt-base { color: var(--muted); font-size: 12px; }
+  .delta { font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  .delta.up { color: var(--critical); } .delta.down { color: var(--good); } .delta.flat { color: var(--muted); }
+
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th.num, td.num { text-align: right; }
+  td { padding: 9px 8px 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  .legs td span, .legs td a { display: block; }
+  .l-route .mono { font-weight: 500; text-decoration: none; }
+  .l-when .mono { white-space: nowrap; }
+  .l-route a.mono:hover { text-decoration: underline; }
+  .l-label, .l-times, .l-flight, .l-ceiling, .l-alt, .l-err { color: var(--muted); font-size: 12px; }
+  .l-alt { margin-top: 2px; }
+
+  /* fare class: what is actually booked, and the cheap fare the rules exclude */
+  .l-class { color: var(--ink); font-size: 11.5px; font-weight: 500; margin-top: 2px; }
+  .l-basic { color: var(--muted); font-size: 11px; font-style: italic; margin-top: 1px; }
+  .pill.chip { margin-top: 5px; font-size: 10px; letter-spacing: .04em; }
+  .opt-head-alt { color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+
+  /* drop outlook */
+  .ol-note { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; max-width: 78ch; }
+  .outlook-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .outlook-card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; }
+  .outlook-card h2 { font-size: 20px; margin-top: 2px; }
+  .outlook-card .tripwires li { align-items: flex-start; }
+  .ol-why { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .l-price { text-align: right; }
+  .l-price .price { font-weight: 500; font-size: 16px; }
+  .leg-over .price { color: var(--critical); }
+  .leg-missing .l-err { max-width: 28ch; }
+
+  /* pills & dots */
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; line-height: 1.5; }
+  .pill.good { background: var(--good-bg); color: var(--good); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .pill.critical { background: var(--critical-bg); color: var(--critical); }
+  .pill.neutral { background: var(--neutral-bg); color: var(--neutral); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; margin-top: 6px; }
+  .dot.good { background: var(--good); } .dot.warn { background: var(--warn); } .dot.critical { background: var(--critical); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr; gap: 22px; margin-bottom: 26px; }
+  .tripwires, .fired, .fails, .rules { list-style: none; margin: 0; padding: 0; }
+  .tripwires li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .tripwires li:last-child { border-bottom: 0; }
+  .tw-text { flex: 1; }
+  .tw-now { color: var(--muted); font-size: 13px; white-space: nowrap; }
+  .fired li, .fails li { padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; font-weight: 500; }
+  .fired li { background: var(--critical-bg); color: var(--critical); }
+  .fails li { background: var(--warn-bg); color: var(--warn); }
+  .rules li { padding: 4px 0; color: var(--muted); font-size: 13.5px; }
+  .rules li::before { content: "— "; }
+  .hist td, .hist th { padding-top: 6px; padding-bottom: 6px; }
+  .foot { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 12px; }
+
+  @media (min-width: 720px) {
+    .options { grid-template-columns: 1fr 1fr; }
+    .grid2 { grid-template-columns: 1.2fr 1fr; }
+    .outlook-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .board { grid-template-columns: 1fr; }
+    .board .word { grid-row: auto; font-size: 46px; }
+    .l-air { display: none; }
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <h1>{{TITLE}}</h1>
+    <div class="meta">Checked {{CHECKED}} · {{SOURCE}}</div>
+  </header>
+
+  <section class="board {{DECISION_CLASS}}" aria-live="polite">
+    <div class="word">{{DECISION}}</div>
+    <div class="sub">{{DECISION_SUB}}</div>
+    <div class="headline">{{HEADLINE}}</div>
+  </section>
+
+  {{FIRED}}
+  {{FAILURES}}
+
+  <div class="options">
+    {{OPTIONS}}
+  </div>
+
+  {{OUTLOOK}}
+
+  <div class="grid2">
+    <section>
+      <h3>Tripwires · any one of these means book</h3>
+      {{TRIPWIRES}}
+    </section>
+    <section>
+      <h3>Rules of the trip</h3>
+      {{RULES}}
+    </section>
+  </div>
+
+  <section style="margin-bottom:26px">
+    <h3>Recent checks</h3>
+    {{HISTORY}}
+  </section>
+
+  <footer class="foot">{{BASELINE_NOTE}} · Cheapest nonstop fare per leg; route codes link to the live Google Flights search. Whole trip is booked as a unit or not at all.</footer>
+</div>
