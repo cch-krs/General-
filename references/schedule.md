@@ -56,11 +56,11 @@ run on weekdays and let the long gap land on the weekend.
 
 ## The decision date
 
-Moved up to **Oct 1 2026** (from Nov 1) on 2026-09-14. Oct 1 is a **Thursday**,
-off the Mon/Wed/Fri schedule, so a one-shot routine
-(`trig_0111nQewREuAMJfLa1FSFvPG`) runs that day at 13:02 UTC and notifies
-unconditionally — otherwise the one tripwire that books without argument would
-fire a day late, on Fri Oct 2.
+Moved up to **Oct 2 2026** (from Nov 1) on 2026-09-14. Oct 2 is a **Friday**,
+already a scheduled run day, so no one-shot is needed — the decision-date
+tripwire fires on the day itself. (An Oct 1 one-shot existed briefly when the
+date was Oct 1, a Thursday; moving to Oct 2 made it redundant and it was
+deleted.)
 
 ### What the data says about that date
 
@@ -93,9 +93,10 @@ of what happens inside 90 days** — the stretch that actually decides whether
 waiting pays. The general shape of holiday booking curves puts the turn upward
 somewhere inside the last six weeks, which for a Dec 16 departure is roughly
 Nov 4, but that is a prior about airfares in general, not something measured from
-this trip. Oct 1 sits comfortably before any plausible run-up; a later date in
+this trip. Oct 2 sits comfortably before any plausible run-up; a later date in
 October would capture more of a decline that is visibly still in progress, at the
-cost of holding exposure longer.
+cost of holding exposure longer. See `strategy.md` — the remaining timing upside
+($20–40) is now smaller than the structural saving available today ($64).
 
 ## Reproducing this
 
