@@ -3,33 +3,44 @@
 Written as the owner of the outcome, not the operator of the script. The goal is
 the cheapest acceptable trip, not a well-run watcher.
 
-## The finding that matters
+## Correction to the 2026-09-14 multi-city finding
 
-**The watch has been optimising the wrong unit.** It prices six separate one-way
-tickets. The same Option A itinerary bought as **one multi-city ticket** is
-cheaper, measured today:
+An earlier version of this file claimed the trip bought as one multi-city ticket
+saved $64 in main cabin and $113 in basic. **That was wrong, and the error was
+mine.** The one-way searches all pass `stops=1`; my first multi-city search did
+not. So it was free to route HNL→SFO through Lihue — AS 1043 to LIH, a 4h52m
+layover on Kauai, then AS 520 — turning a 5h30m nonstop into nearly 13 hours, and
+violating the trip's own nonstop rule. The saving was mostly the connection.
 
-| | Basic / Saver | Main cabin |
+Re-priced nonstop-only, the honest numbers:
+
+| | Saver / basic | Main cabin |
 |---|---|---|
-| Six separate one-ways | $952 | **$1,082** |
-| One multi-city ticket (Alaska AS 829 / AS 520 / AS 32) | $839 | **$1,018** |
-| **Saving** | **$113** | **$64** |
+| Six separate one-ways | $952 | $1,082 |
+| One multi-city ticket, nonstop | $889 | $1,074 |
+| **Saving** | **$63** | **$8** |
 
-Verified by walking the multi-city itinerary leg by leg to a complete price, then
-pulling its fare ladder. It is one airline, one PNR — which also means a delay on
-the first leg is Alaska's problem to re-accommodate, where three separate tickets
-would leave that risk with Cameron. Note AS 520 is a different HNL→SFO flight than
-the one-way search picks (UA 373), so it is not a pure like-for-like on timing.
+**In main cabin the restructuring is worth $8 — noise.** The multi-city idea is
+not the lever; it only looked like one because of the Kauai detour. What survives
+is that a single ticket puts misconnect risk on the airline rather than on
+Cameron, which is worth something but not a line item.
 
-Every other lever in this document is smaller than this one.
+## The lever that is real: fare class
+
+On the nonstop multi-city ticket, Saver is $889 against $1,074 for Main — **$185**.
+That is the largest number in this file. What Saver actually costs on this
+itinerary, per the fare's own terms returned with it: **1 free carry-on included**,
+first checked bag $135. Seat assignment and change rights are the other
+restrictions and should be confirmed on the airline's own page before booking —
+the Alaska policy URL tried here 404'd, so that is unverified rather than known.
 
 ## Ranked levers
 
 | # | Lever | Worth | Whose call |
 |---|---|---|---|
-| 1 | Buy as one multi-city ticket, not six one-ways | $64 main / $113 basic | Cameron |
-| 2 | The main-cabin rule itself | $179 on the multi-city ($1,018 vs $839) | Cameron |
-| 3 | Re-set the leg ceilings so the tripwire carries information | $0, restores signal | Cameron |
+| 1 | Fare class: Saver vs Main on the nonstop multi-city | **$185** | Cameron |
+| 2 | Wait for a dip toward the September low | **~$140 observed** | the watch |
+| 3 | Buy as one multi-city ticket rather than six one-ways | $8 main / $63 Saver | Cameron |
 | 4 | Stop weighting Option B equally | simplifies | already true |
 
 ### 2. What the main-cabin rule costs
@@ -54,16 +65,32 @@ Option B is $85 behind and losing ground: B1 (JFK→SFO on Christmas Eve) is up 
 in a fortnight and dearer than 98% of its tracked readings. It will not recover.
 Keep pricing it as a cheap sanity check, but the decision is Option A.
 
-## What waiting is still worth
+## What waiting is still worth — revised upward
 
-Pooled by days-to-departure, the fares have already done most of their falling:
-A1 and B3 sit ~$20 above their own observed floors after coming down about $185
-each. The remaining downside on the legs that drive the decision is small — call
-it $20–40 across the trip — against a restructuring saving of $64 that is
-available today and does not depend on the market moving at all.
+An earlier line here put the remaining timing upside at $20–40, reasoning from A1
+and B3 sitting near their own floors. That understated it, because the legs do not
+bottom at the same time; the portfolio swings more than any single leg.
 
-**The structural win is larger than the remaining timing win.** That is the whole
-strategic point: the question stopped being *when* to buy and became *how*.
+Reconstructing what Option A would have cost in Saver fares on each of the last 61
+days:
+
+| | |
+|---|---|
+| Today | **$897** |
+| Cheapest seen | **$757** on 2026-09-03 |
+| Dearest seen | $1,112 on 2026-08-15 |
+| Median | $1,008 |
+| July avg → September avg | $991 → **$832** |
+| Last 21 days | $757–$897, 14 distinct values — **still moving** |
+
+Today is cheap against July and August and **dear against the last three weeks**.
+The same trip was $757 eleven days ago. The series has swung $140 inside three
+weeks and has not gone flat, so a dip of that order before Oct 2 is not a
+hypothetical — it happened this month.
+
+**So timing is worth more than structure here: ~$140 of observed, recent
+volatility against $8 of restructuring.** Booking today at $897 would be buying at
+the top of the September range.
 
 ## Open recommendation
 
