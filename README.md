@@ -68,8 +68,8 @@ keep waiting.
 
 ## Schedule
 
-Mon / Wed / Fri at 13:02 UTC, plus a one-shot on Nov 1 (the decision date, which
-falls on a Sunday). `references/schedule.md` has the measurement behind that: there
+Mon / Wed / Fri at 13:02 UTC, plus a one-shot on Oct 1 (the decision date, which
+falls on a Thursday). `references/schedule.md` has the measurement behind that: there
 is no cheap weekday to search — the spread across weekdays is smaller than 89% of
 random shuffles — but fares are measurably less likely to fall over a weekend, so
 the three-day gap is parked there. Budget settles the rest: 14 searches a check

@@ -56,11 +56,46 @@ run on weekdays and let the long gap land on the weekend.
 
 ## The decision date
 
-Nov 1 2026 — the planned decision date, and the one unconditional BOOK_NOW
-tripwire — is a **Sunday**, and Oct 31 is a Saturday. Under Mon/Wed/Fri the last
-run before it is Fri Oct 30 and the next is Mon Nov 2, so the tripwire would fire a
-day late. A one-shot routine (`trig_01MWQTpTpYo8iy7cKbVHxbMQ`) runs on Nov 1 at
-13:02 UTC to close that gap.
+Moved up to **Oct 1 2026** (from Nov 1) on 2026-09-14. Oct 1 is a **Thursday**,
+off the Mon/Wed/Fri schedule, so a one-shot routine
+(`trig_0111nQewREuAMJfLa1FSFvPG`) runs that day at 13:02 UTC and notifies
+unconditionally — otherwise the one tripwire that books without argument would
+fire a day late, on Fri Oct 2.
+
+### What the data says about that date
+
+Pooling all six legs by days-to-departure widens the observed booking curve to
+175→93 days out. Within that window the fares have mostly been falling, and the
+two legs that matter most are close to their observed floors:
+
+| Leg | Departs | Days out | First seen | Now | Its floor | Above floor | Last 14d |
+|---|---|---|---|---|---|---|---|
+| A1 | Dec 16 | 93 | $574 | $389 | $369 | +$20 | **−$84** |
+| A2 | Dec 23 | 100 | $157 | $229 | $157 | +$72 | −$2 |
+| A3 | Dec 28 | 105 | $224 | $279 | $200 | +$79 | −$40 |
+| B1 | Dec 24 | 101 | $274 | $397 | $190 | +$207 | **+$37** |
+| B2 | Dec 29 | 106 | $243 | $229 | $157 | +$72 | −$4 |
+| B3 | Jan 6 | 114 | $574 | $389 | $369 | +$20 | −$33 |
+
+(Headline fares, which is what Google's history tracks; main cabin sits ~$55–75
+above each.)
+
+Two things follow. **Most of the fall has already happened** — A1 and B3 are $20
+off their own floors after coming down ~$185 — so the remaining downside on the
+legs that drive the decision is small. And **B1 is going the wrong way**, up $37
+in a fortnight and dearer than 98% of its readings, which is why Option B keeps
+losing ground to Option A.
+
+### The limit of this analysis
+
+The series only reaches 93 days before departure. **There is no measurement here
+of what happens inside 90 days** — the stretch that actually decides whether
+waiting pays. The general shape of holiday booking curves puts the turn upward
+somewhere inside the last six weeks, which for a Dec 16 departure is roughly
+Nov 4, but that is a prior about airfares in general, not something measured from
+this trip. Oct 1 sits comfortably before any plausible run-up; a later date in
+October would capture more of a decline that is visibly still in progress, at the
+cost of holding exposure longer.
 
 ## Reproducing this
 
