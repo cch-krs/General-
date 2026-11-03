@@ -61,8 +61,14 @@ def main():
         old = {"items": []}
     seen = {i["id"]: i for i in old.get("items", [])}
     status = []
+    skip_gn = os.environ.get("SKIP_GN") == "1"  # fast loop: spare Google News, refresh direct feeds only
+    old_status = {x["name"]: x for x in old.get("sources", [])}
+    todo = [x for x in sources if not (skip_gn and "news.google.com" in x["url"])]
+    for x in sources:
+        if x not in todo and x["name"] in old_status:
+            status.append(old_status[x["name"]])
     with ThreadPoolExecutor(24) as ex:
-        for src, items, st in ex.map(fetch, sources):
+        for src, items, st in ex.map(fetch, todo):
             status.append(dict(name=src["name"], lean=src["lean"], cat=src["cat"], **st))
             for it in items:
                 prev = seen.get(it["id"])

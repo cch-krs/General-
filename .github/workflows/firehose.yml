@@ -1,29 +1,57 @@
 name: firehose
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *"      # daytime: one scrape every 5 min
+    - cron: "40 23 3 11 *"     # 6:40 PM ET Nov 3: start real-time loop #1 (runs to 11 PM ET)
+    - cron: "45 3 4 11 *"      # 10:45 PM ET: real-time loop #2 (queues behind #1, runs to 3:15 AM ET)
   workflow_dispatch:
+    inputs:
+      loop_until:
+        description: "Loop until this UTC time (e.g. 2026-11-04T08:15Z). Empty = single scrape."
+        required: false
+        default: ""
 permissions:
   contents: write
-concurrency:
-  group: firehose
-  cancel-in-progress: false
+  actions: write
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 350
+    concurrency:
+      group: ${{ (github.event.schedule == '40 23 3 11 *' || github.event.schedule == '45 3 4 11 *' || inputs.loop_until != '') && 'firehose-loop' || 'firehose-single' }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install feedparser==6.0.11
-      - run: python firehose/scrape.py
-      - name: Commit data
+      - name: Scrape (single or real-time loop)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SCHED: ${{ github.event.schedule }}
+          LOOP_UNTIL: ${{ inputs.loop_until }}
         run: |
           git config user.name "firehose-bot"
           git config user.email "firehose-bot@users.noreply.github.com"
-          git add docs/data.json
-          git diff --cached --quiet && exit 0
-          git commit -m "firehose: $(date -u +%H:%MZ)"
-          for i in 1 2 3; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
+          case "$SCHED" in
+            "40 23 3 11 *") LOOP_UNTIL="2026-11-04T04:00Z" ;;
+            "45 3 4 11 *")  LOOP_UNTIL="2026-11-04T08:15Z" ;;
+          esac
+          end=0; [ -n "$LOOP_UNTIL" ] && end=$(date -u -d "$LOOP_UNTIL" +%s)
+          i=0
+          while :; do
+            start=$(date +%s)
+            # in loop mode, Google News queries every 4th cycle (~4 min) to avoid rate limits
+            if [ "$end" -gt 0 ] && [ $((i % 4)) -ne 0 ]; then export SKIP_GN=1; else export SKIP_GN=0; fi
+            python firehose/scrape.py || true
+            git add docs/data.json
+            if ! git diff --cached --quiet; then
+              git commit -qm "firehose: $(date -u +%H:%MZ)"
+              for k in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; sleep 3; done
+              gh workflow run pages.yml --ref main || true
+            fi
+            i=$((i+1))
+            [ "$end" -gt 0 ] && [ "$(date +%s)" -lt "$end" ] || break
+            el=$(( $(date +%s) - start )); [ $el -lt 60 ] && sleep $((60 - el))
+          done

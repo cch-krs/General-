@@ -109,7 +109,7 @@ function render(){if(!data)return;
       return `<h2>${esc(raceName(r))} ${COMPETITIVE.has(r)?'<span class="comp">competitive</span>':""}<span class="n">${its.length} stories · latest ${ago(its[0].t)}</span></h2>`+show.map(card).join("")
       +(its.length>4?`<button class="more" data-r="${r}">${open?"Show fewer":"Show all "+its.length}</button>`:"")}).join("")||"<p>No race-tagged stories match. Try turning off “Competitive races only”.</p>"}
   document.getElementById("list").innerHTML=html;
-  stamp.textContent=`${items.length} items · scraped ${ago(data.updated)} · auto-refreshes every minute`;
+  stamp.textContent=`${items.length} items · scraped ${ago(data.updated)} · auto-refreshes every 30s`;
 }
 async function load(){
   try{const r=await fetch("data.json?ts="+Date.now(),{cache:"no-store"});const d=await r.json();data=d;
@@ -122,7 +122,7 @@ async function load(){
   }catch(e){stamp.textContent="refresh failed, retrying…"}
 }
 addEventListener("beforeunload",()=>{try{localStorage.setItem("fh_seen",data?data.updated:0)}catch(e){}});
-sync();load();setInterval(load,60000);
+sync();load();setInterval(load,30000);
 </script>
 </body>
 </html>
