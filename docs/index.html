@@ -48,6 +48,8 @@ details{margin-top:20px;font-size:13px;color:var(--mute)}
   <div class="row"><span class="lbl">View</span><span id="views"></span>
     <button class="chip" id="comp" aria-pressed="true">Competitive races only</button>
     <button class="chip" id="elex" aria-pressed="true">Election only</button></div>
+  <div class="row"><span class="lbl">Published</span><span id="ages"></span>
+    <button class="chip" id="hideold" aria-pressed="true">Hide reposts &amp; resurfaced</button></div>
   <div class="row"><span class="lbl">Bias (est.)</span><span id="biases"></span></div>
   <div class="row"><span class="lbl">Office</span><span id="offices"></span>
     <input type="search" id="q" placeholder="Search headlines, outlets, candidates…">
@@ -56,7 +58,7 @@ details{margin-top:20px;font-size:13px;color:var(--mute)}
 <main>
   <div id="silver"></div>
   <div id="list"></div>
-  <p class="note">Bias labels are estimates of each outlet's typical lean (AllSides / Ad Fontes style), not a judgment of the individual story. Race tags come from keyword and candidate-name matching and can miss or mis-tag stories.</p>
+  <p class="note">Bias labels are estimates of each outlet's typical lean (AllSides / Ad Fontes style), not a judgment of the individual story. “Published” is the outlet’s own timestamp. Items first seen more than 6 hours after they were published are marked resurfaced (old articles reposted to a feed) and hidden by default; the same headline across outlets is merged into one card. Race tags come from keyword and candidate-name matching and can miss or mis-tag stories.</p>
   <details id="health"><summary>Feed health</summary><div id="hl"></div></details>
 </main>
 <script>
@@ -66,7 +68,8 @@ const OFFICES={SEN:"Senate",GOV:"Governor",HOUSE:"House",CTRL:"Control"};
 const COMPETITIVE=new Set("AK-SEN IA-SEN KS-SEN OH-SEN TX-SEN MI-SEN GA-SEN ME-SEN NC-SEN NH-SEN NE-SEN MN-SEN GA-GOV KS-GOV NV-GOV OH-GOV AZ-GOV MI-GOV WI-GOV PA-GOV AK-GOV NE-GOV IA-GOV NY-GOV ME-GOV US-HOUSE US-SENATE AZ-01 AZ-06 CA-13 CA-22 CA-45 CO-05 CO-08 IA-01 IA-03 ME-02 MI-07 MI-10 NE-02 NJ-07 NM-02 NY-04 NY-17 NC-01 OH-09 OH-13 PA-01 PA-07 PA-08 PA-10 SC-01 TX-28 TX-34 VA-02 WA-03 WI-03 NV-03 NV-04".split(" "));
 let data=null,lastSeen=0,openRaces=new Set();
 try{lastSeen=+localStorage.getItem("fh_seen")||0}catch(e){}
-const S={view:"race",bias:new Set(BIAS),off:new Set(Object.keys(OFFICES)),comp:true,elex:true,q:"",race:""};
+const AGES={1:"Last hour",3:"3h",12:"12h",24:"24h"};
+const S={age:3,hideold:true,view:"race",bias:new Set(BIAS),off:new Set(Object.keys(OFFICES)),comp:true,elex:true,q:"",race:""};
 const officeOf=r=>r.startsWith("US-")?"CTRL":r.endsWith("-SEN")?"SEN":r.endsWith("-GOV")?"GOV":"HOUSE";
 const raceName=r=>({"US-HOUSE":"House control","US-SENATE":"Senate control"}[r]||(r.endsWith("-SEN")?r.slice(0,2)+" Senate":r.endsWith("-GOV")?r.slice(0,2)+" Governor":r));
 function chipGroup(id,map,get,set){const el=document.getElementById(id);
@@ -75,8 +78,10 @@ function chipGroup(id,map,get,set){const el=document.getElementById(id);
   return()=>el.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",get(b.dataset.k)))}
 const syncs=[chipGroup("views",VIEWS,k=>S.view===k,k=>S.view=k),
   chipGroup("biases",Object.fromEntries(BIAS.map(b=>[b,b])),k=>S.bias.has(k),k=>S.bias.has(k)?S.bias.delete(k):S.bias.add(k)),
-  chipGroup("offices",OFFICES,k=>S.off.has(k),k=>S.off.has(k)?S.off.delete(k):S.off.add(k))];
-function sync(){syncs.forEach(f=>f());comp.setAttribute("aria-pressed",S.comp);elex.setAttribute("aria-pressed",S.elex)}
+  chipGroup("offices",OFFICES,k=>S.off.has(k),k=>S.off.has(k)?S.off.delete(k):S.off.add(k)),
+  chipGroup("ages",AGES,k=>S.age==k,k=>S.age=+k)];
+function sync(){syncs.forEach(f=>f());hideold.setAttribute("aria-pressed",S.hideold);comp.setAttribute("aria-pressed",S.comp);elex.setAttribute("aria-pressed",S.elex)}
+hideold.onclick=()=>{S.hideold=!S.hideold;sync();render()};
 comp.onclick=()=>{S.comp=!S.comp;sync();render()};elex.onclick=()=>{S.elex=!S.elex;sync();render()};
 q.oninput=e=>{S.q=e.target.value.toLowerCase();render()};
 race.onchange=e=>{S.race=e.target.value;if(S.race)S.view="race";sync();render()};
@@ -85,11 +90,11 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const card=i=>`<article class="it${i.first_seen>lastSeen&&lastSeen?" new":""}"><div class="meta">
   <span class="b b-${i.bias.replace(/\W/g,"")}">${esc(i.bias)}</span><span>${esc(i.outlet)}</span>
   ${i.races.map(r=>`<span class="rt" data-r="${r}">${esc(raceName(r))}</span>`).join("")}
-  <span title="${new Date(i.t*1000).toLocaleString()}">${ago(i.t)}</span></div>
-  <a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`;
+  <span title="Published ${new Date(i.t*1000).toLocaleString()}">published ${ago(i.t)}</span>${i.resurfaced?'<span class="b b-Unrated">resurfaced</span>':""}</div>
+  <a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.also&&i.also.length?`<p class="blurb">Also in: ${esc(i.also.slice(0,5).join(", "))}${i.also.length>5?` +${i.also.length-5}`:""}</p>`:""}${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`;
 document.addEventListener("click",e=>{const r=e.target.closest(".rt");if(r){S.race=r.dataset.r;race.value=S.race;S.view="race";sync();render();scrollTo(0,0)}
   const m=e.target.closest(".more");if(m){openRaces.has(m.dataset.r)?openRaces.delete(m.dataset.r):openRaces.add(m.dataset.r);render()}});
-function base(){return data.items.filter(i=>S.bias.has(i.bias)&&(!S.elex||i.elex)
+function base(){const cut=Date.now()/1000-S.age*3600;return data.items.filter(i=>i.t>=cut&&(!S.hideold||!(i.resurfaced||i.undated))&&S.bias.has(i.bias)&&(!S.elex||i.elex)
   &&(!S.q||(i.title+" "+i.outlet+" "+i.blurb+" "+i.races.join(" ")).toLowerCase().includes(S.q)))}
 function render(){if(!data)return;
   const items=base();let html="",html_s="";
