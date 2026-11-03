@@ -77,5 +77,35 @@ for n,u in [("AP", gn("site:apnews.com election when:1d")),("AP race calls", gn(
             ("Cook Political", gn("site:cookpolitical.com when:2d")),("Sabato's Crystal Ball", gn("site:centerforpolitics.org when:3d")),
             ("NYT Elections", gn("site:nytimes.com election results when:1d")),("Politico Elections", gn("site:politico.com election when:1d"))]:
     add(n,u,"wire","calls")
+# Nate Silver + poll trackers / forecasters (lean "data")
+for n,u in [("Silver Bulletin (Nate Silver)","https://www.natesilver.net/feed"),
+            ("Nate Silver (news mentions)", gn('"Nate Silver" when:2d')),
+            ("Silver Bulletin (GN)", gn("site:natesilver.net when:3d")),
+            ("G. Elliott Morris","https://www.gelliottmorris.com/feed"),
+            ("Inside Elections","https://www.insideelections.com/feed"),
+            ("RealClearPolitics","https://www.realclearpolitics.com/index.xml"),
+            ("RealClearPolling (GN)", gn("site:realclearpolling.com when:2d")),
+            ("Poll trackers", gn('(poll OR polling average OR forecast) (Senate OR House OR governor) 2026 when:1d')),
+            ("VoteHub / exit polls", gn('(VoteHub OR "exit poll" OR "exit polls") when:1d')),
+            ("Prediction markets", gn('(Kalshi OR Polymarket) election odds when:1d')),
+            ("NYT polling", gn("site:nytimes.com poll midterms when:2d")),
+            ("Slow Boring","https://www.slowboring.com/feed")]:
+    add(n,u,"data","polls")
+# National politics desks
+for n,u,l in [("Politico","https://rss.politico.com/politics-news.xml","national"),("The Hill — Campaign","https://thehill.com/homenews/campaign/feed/","national"),
+              ("Axios","https://api.axios.com/feed/","national"),("NBC News Politics","https://feeds.nbcnews.com/nbcnews/public/politics","national"),
+              ("NYT Politics","https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml","national"),("CBS News Politics","https://www.cbsnews.com/latest/rss/politics","national"),
+              ("ABC News Politics","https://abcnews.go.com/abcnews/politicsheadlines","national"),("Semafor","https://www.semafor.com/rss.xml","national"),
+              ("Washington Post Politics", gn("site:washingtonpost.com election when:1d"),"national"),
+              ("Fox News Politics","https://moxie.foxnews.com/google-publisher/politics.xml","right"),("Breitbart Politics","https://www.breitbart.com/politics/feed/","right"),
+              ("Newsmax", gn("site:newsmax.com election when:1d"),"right"),
+              ("The Bulwark","https://www.thebulwark.com/feed","left"),("Vox Politics","https://www.vox.com/rss/politics/index.xml","left"),
+              ("HuffPost Politics","https://www.huffpost.com/section/politics/feed","left")]:
+    add(n,u,l,"news")
+# Competitive-race sweeps
+for q in ["Senate race Texas OR Ohio OR Iowa OR Alaska OR Kansas OR Michigan OR Georgia OR Maine OR \"North Carolina\" OR \"New Hampshire\"",
+          "governor race Georgia OR Kansas OR Nevada OR Ohio OR Arizona OR Michigan OR Wisconsin OR Pennsylvania",
+          "House battleground toss-up district"]:
+    add("Battleground sweep", gn(q+" when:1d"), "wire", "calls")
 json.dump(S, open("sources.json","w"), indent=1)
 print(len(S), "sources")

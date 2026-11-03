@@ -3,6 +3,7 @@ import json, re, html, time, hashlib, sys, os
 from concurrent.futures import ThreadPoolExecutor
 from urllib.request import Request, urlopen
 import feedparser
+from classify import tag
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "..", "docs", "data.json")
@@ -46,6 +47,7 @@ def fetch(src):
                 id=hashlib.sha1(link.encode()).hexdigest()[:16], title=title, link=link, blurb=blurb,
                 outlet=outlet, feed=src["name"], lean=src["lean"], cat=src["cat"], state=src.get("state", ""),
                 t=ts(e), elex=bool(ELEX.search(title + " " + blurb))))
+            tag(items[-1], src)
         return src, items, dict(ok=True, n=len(items), ms=int((time.time()-t0)*1000))
     except Exception as ex:
         return src, [], dict(ok=False, err=str(ex)[:160])
@@ -65,9 +67,16 @@ def main():
             for it in items:
                 prev = seen.get(it["id"])
                 it["first_seen"] = prev["first_seen"] if prev else now
+                if it["races"] or it["silver"]: it["elex"] = True
                 if it["t"] is None or it["t"] > now + 600:
                     it["t"] = it["first_seen"]
                 seen[it["id"]] = it
+    srcmap = {x["name"]: x for x in sources}
+    for it in seen.values():  # retag everything so classifier changes apply to kept items
+        src = srcmap.get(it.get("feed"))
+        if src:
+            tag(it, src)
+            if it["races"] or it["silver"]: it["elex"] = True
     cutoff = now - WINDOW_H * 3600
     items = sorted((i for i in seen.values() if i["t"] >= cutoff), key=lambda i: -i["t"])[:MAX_ITEMS]
     os.makedirs(os.path.dirname(OUT), exist_ok=True)

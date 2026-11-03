@@ -740,5 +740,215 @@
   "lean": "wire",
   "cat": "calls",
   "state": ""
+ },
+ {
+  "name": "Silver Bulletin (Nate Silver)",
+  "url": "https://www.natesilver.net/feed",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Nate Silver (news mentions)",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=\"Nate+Silver\"+when:2d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Silver Bulletin (GN)",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:natesilver.net+when:3d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "G. Elliott Morris",
+  "url": "https://www.gelliottmorris.com/feed",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Inside Elections",
+  "url": "https://www.insideelections.com/feed",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "RealClearPolitics",
+  "url": "https://www.realclearpolitics.com/index.xml",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "RealClearPolling (GN)",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:realclearpolling.com+when:2d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Poll trackers",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=(poll+OR+polling+average+OR+forecast)+(Senate+OR+House+OR+governor)+2026+when:1d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "VoteHub / exit polls",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=(VoteHub+OR+\"exit+poll\"+OR+\"exit+polls\")+when:1d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Prediction markets",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=(Kalshi+OR+Polymarket)+election+odds+when:1d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "NYT polling",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:nytimes.com+poll+midterms+when:2d",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Slow Boring",
+  "url": "https://www.slowboring.com/feed",
+  "lean": "data",
+  "cat": "polls",
+  "state": ""
+ },
+ {
+  "name": "Politico",
+  "url": "https://rss.politico.com/politics-news.xml",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "The Hill \u2014 Campaign",
+  "url": "https://thehill.com/homenews/campaign/feed/",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Axios",
+  "url": "https://api.axios.com/feed/",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "NBC News Politics",
+  "url": "https://feeds.nbcnews.com/nbcnews/public/politics",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "NYT Politics",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "CBS News Politics",
+  "url": "https://www.cbsnews.com/latest/rss/politics",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "ABC News Politics",
+  "url": "https://abcnews.go.com/abcnews/politicsheadlines",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Semafor",
+  "url": "https://www.semafor.com/rss.xml",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Washington Post Politics",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:washingtonpost.com+election+when:1d",
+  "lean": "national",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Fox News Politics",
+  "url": "https://moxie.foxnews.com/google-publisher/politics.xml",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Breitbart Politics",
+  "url": "https://www.breitbart.com/politics/feed/",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Newsmax",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:newsmax.com+election+when:1d",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "The Bulwark",
+  "url": "https://www.thebulwark.com/feed",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Vox Politics",
+  "url": "https://www.vox.com/rss/politics/index.xml",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "HuffPost Politics",
+  "url": "https://www.huffpost.com/section/politics/feed",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Battleground sweep",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=Senate+race+Texas+OR+Ohio+OR+Iowa+OR+Alaska+OR+Kansas+OR+Michigan+OR+Georgia+OR+Maine+OR+\"North+Carolina\"+OR+\"New+Hampshire\"+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Battleground sweep",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=governor+race+Georgia+OR+Kansas+OR+Nevada+OR+Ohio+OR+Arizona+OR+Michigan+OR+Wisconsin+OR+Pennsylvania+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Battleground sweep",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=House+battleground+toss-up+district+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
  }
 ]

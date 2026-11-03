@@ -5,87 +5,124 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Midterms Firehose</title>
 <style>
-:root{--bg:#f7f7f5;--card:#fff;--ink:#1b1b1b;--mute:#6b6b6b;--line:#e3e3df;--accent:#0b5fff;
---ground:#2f7d4f;--left:#2456c7;--right:#c2352b;--wire:#7a4fc0;--new:#fff6d6}
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1b1b1b;--mute:#6b6b6b;--line:#e3e3df;--accent:#0b5fff;--new:#fff6d6;--silver:#fff1e6;
+--L:#1d4ed8;--LL:#60a5fa;--C:#6b7280;--LR:#f87171;--R:#b91c1c;--U:#a3a3a3;--comp:#d97706}
 @media (prefers-color-scheme:dark){:root{--bg:#121314;--card:#1b1c1e;--ink:#ececec;--mute:#9a9a9a;--line:#2c2d30;
---accent:#6ea0ff;--ground:#5fbf86;--left:#7aa2ff;--right:#ff7a70;--wire:#b994ff;--new:#2e2a17}}
+--accent:#6ea0ff;--new:#2e2a17;--silver:#2b2116;--L:#7aa2ff;--LL:#a5c4ff;--C:#a3a3a3;--LR:#ffa3a3;--R:#ff6b6b;--U:#777;--comp:#fbbf24}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px}
-h1{font-size:18px;margin:0 0 6px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h1{font-size:18px;margin:0;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
 #stamp{font-size:12px;font-weight:400;color:var(--mute)}
-.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;align-items:center}
+.lbl{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
 .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 input,select{font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
-input[type=search]{flex:1;min-width:160px}
-main{max-width:900px;margin:0 auto;padding:8px 16px 60px}
-.it{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0}
-.it.new{background:var(--new)}
-.meta{font-size:12px;color:var(--mute);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.lean{font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.03em}
-.lean.ground{color:var(--ground)}.lean.left{color:var(--left)}.lean.right{color:var(--right)}.lean.wire{color:var(--wire)}
+input[type=search]{flex:1;min-width:150px}
+main{max-width:920px;margin:0 auto;padding:8px 16px 60px}
+h2{font-size:15px;margin:22px 0 4px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+h2 .n{font-weight:400;color:var(--mute);font-size:13px}
+.comp{font-size:10.5px;font-weight:700;color:var(--comp);border:1px solid var(--comp);border-radius:4px;padding:0 5px;text-transform:uppercase}
+.silverbox{background:var(--silver);border:1px solid var(--line);border-radius:12px;padding:6px 12px 10px;margin:10px 0}
+.silverbox h2{margin-top:6px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin:7px 0}
+.silverbox .it{background:var(--card)}
+.it.new{box-shadow:inset 3px 0 0 var(--comp)}
+.meta{font-size:12px;color:var(--mute);display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.b{font-weight:700;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;padding:0 5px;border-radius:4px;border:1px solid currentColor}
+.b-Left{color:var(--L)}.b-LeanLeft{color:var(--LL)}.b-Center{color:var(--C)}.b-LeanRight{color:var(--LR)}.b-Right{color:var(--R)}.b-LocalUnrated,.b-Unrated{color:var(--U)}
+.rt{font-size:11px;font-weight:600;background:var(--line);color:var(--ink);border-radius:4px;padding:0 5px;cursor:pointer}
 .it a{color:var(--ink);text-decoration:none;font-weight:600;display:block;margin:3px 0}
 .it a:hover{color:var(--accent);text-decoration:underline}
 .blurb{font-size:13.5px;color:var(--mute);margin:0;overflow-wrap:anywhere}
-details{margin-top:8px;font-size:13px;color:var(--mute)}
-.bad{color:var(--right)}
-#more{display:block;margin:16px auto}
+.more{font-size:13px;color:var(--accent);background:none;border:0;cursor:pointer;padding:2px 0}
+details{margin-top:20px;font-size:13px;color:var(--mute)}
+.bad{color:var(--R)}
+.note{font-size:12px;color:var(--mute);margin:4px 0 0}
 </style>
 </head>
 <body>
 <header>
   <h1>Midterms Firehose <span id="stamp">loading…</span></h1>
-  <div class="row" id="leans"></div>
-  <div class="row" id="cats"></div>
-  <div class="row">
-    <input type="search" id="q" placeholder="Search headlines, outlets, states…">
-    <select id="st"><option value="">All states</option></select>
-    <button class="chip" id="elex" aria-pressed="true">Election only</button>
-  </div>
+  <div class="row"><span class="lbl">View</span><span id="views"></span>
+    <button class="chip" id="comp" aria-pressed="true">Competitive races only</button>
+    <button class="chip" id="elex" aria-pressed="true">Election only</button></div>
+  <div class="row"><span class="lbl">Bias (est.)</span><span id="biases"></span></div>
+  <div class="row"><span class="lbl">Office</span><span id="offices"></span>
+    <input type="search" id="q" placeholder="Search headlines, outlets, candidates…">
+    <select id="race"><option value="">All races</option></select></div>
 </header>
 <main>
+  <div id="silver"></div>
   <div id="list"></div>
-  <button class="chip" id="more" hidden>Show more</button>
+  <p class="note">Bias labels are estimates of each outlet's typical lean (AllSides / Ad Fontes style), not a judgment of the individual story. Race tags come from keyword and candidate-name matching and can miss or mis-tag stories.</p>
   <details id="health"><summary>Feed health</summary><div id="hl"></div></details>
 </main>
 <script>
-const LEANS={ground:"Ground-level",left:"Left",right:"Right",wire:"Calls & data"};
-const CATS={news:"News",radio:"Public radio",offices:"Election offices",calls:"Calls/wires"};
-let data=null, shown=150, lastSeen=0;
+const BIAS=["Left","Lean Left","Center","Lean Right","Right","Local/Unrated","Unrated"];
+const VIEWS={race:"By race",latest:"Latest",polls:"Silver & polls"};
+const OFFICES={SEN:"Senate",GOV:"Governor",HOUSE:"House",CTRL:"Control"};
+const COMPETITIVE=new Set("AK-SEN IA-SEN KS-SEN OH-SEN TX-SEN MI-SEN GA-SEN ME-SEN NC-SEN NH-SEN NE-SEN MN-SEN GA-GOV KS-GOV NV-GOV OH-GOV AZ-GOV MI-GOV WI-GOV PA-GOV AK-GOV NE-GOV IA-GOV NY-GOV ME-GOV US-HOUSE US-SENATE AZ-01 AZ-06 CA-13 CA-22 CA-45 CO-05 CO-08 IA-01 IA-03 ME-02 MI-07 MI-10 NE-02 NJ-07 NM-02 NY-04 NY-17 NC-01 OH-09 OH-13 PA-01 PA-07 PA-08 PA-10 SC-01 TX-28 TX-34 VA-02 WA-03 WI-03 NV-03 NV-04".split(" "));
+let data=null,lastSeen=0,openRaces=new Set();
 try{lastSeen=+localStorage.getItem("fh_seen")||0}catch(e){}
-const state={lean:new Set(Object.keys(LEANS)),cat:new Set(Object.keys(CATS)),elex:true,q:"",st:""};
-function chips(id,map,set){const el=document.getElementById(id);
-  for(const[k,v]of Object.entries(map)){const b=document.createElement("button");b.className="chip";b.textContent=v;
-    b.setAttribute("aria-pressed","true");b.onclick=()=>{set.has(k)?set.delete(k):set.add(k);b.setAttribute("aria-pressed",set.has(k));shown=150;render()};el.append(b)}}
-chips("leans",LEANS,state.lean);chips("cats",CATS,state.cat);
-document.getElementById("elex").onclick=e=>{state.elex=!state.elex;e.target.setAttribute("aria-pressed",state.elex);render()};
-document.getElementById("q").oninput=e=>{state.q=e.target.value.toLowerCase();shown=150;render()};
-document.getElementById("st").onchange=e=>{state.st=e.target.value;render()};
-document.getElementById("more").onclick=()=>{shown+=150;render()};
+const S={view:"race",bias:new Set(BIAS),off:new Set(Object.keys(OFFICES)),comp:true,elex:true,q:"",race:""};
+const officeOf=r=>r.startsWith("US-")?"CTRL":r.endsWith("-SEN")?"SEN":r.endsWith("-GOV")?"GOV":"HOUSE";
+const raceName=r=>({"US-HOUSE":"House control","US-SENATE":"Senate control"}[r]||(r.endsWith("-SEN")?r.slice(0,2)+" Senate":r.endsWith("-GOV")?r.slice(0,2)+" Governor":r));
+function chipGroup(id,map,get,set){const el=document.getElementById(id);
+  for(const[k,v]of Object.entries(map)){const b=document.createElement("button");b.className="chip";b.textContent=v;b.dataset.k=k;
+    b.onclick=()=>{set(k);sync();render()};el.append(b)}
+  return()=>el.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",get(b.dataset.k)))}
+const syncs=[chipGroup("views",VIEWS,k=>S.view===k,k=>S.view=k),
+  chipGroup("biases",Object.fromEntries(BIAS.map(b=>[b,b])),k=>S.bias.has(k),k=>S.bias.has(k)?S.bias.delete(k):S.bias.add(k)),
+  chipGroup("offices",OFFICES,k=>S.off.has(k),k=>S.off.has(k)?S.off.delete(k):S.off.add(k))];
+function sync(){syncs.forEach(f=>f());comp.setAttribute("aria-pressed",S.comp);elex.setAttribute("aria-pressed",S.elex)}
+comp.onclick=()=>{S.comp=!S.comp;sync();render()};elex.onclick=()=>{S.elex=!S.elex;sync();render()};
+q.oninput=e=>{S.q=e.target.value.toLowerCase();render()};
+race.onchange=e=>{S.race=e.target.value;if(S.race)S.view="race";sync();render()};
 const ago=t=>{const s=Date.now()/1000-t;return s<90?"just now":s<3600?Math.round(s/60)+"m ago":s<86400?Math.round(s/3600)+"h ago":Math.round(s/86400)+"d ago"};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function render(){ if(!data)return;
-  const f=data.items.filter(i=>state.lean.has(i.lean)&&state.cat.has(i.cat)&&(!state.elex||i.elex)&&(!state.st||i.state===state.st)
-    &&(!state.q||(i.title+" "+i.outlet+" "+i.blurb+" "+i.state).toLowerCase().includes(state.q)));
-  document.getElementById("list").innerHTML=f.slice(0,shown).map(i=>`<article class="it${i.first_seen>lastSeen&&lastSeen?" new":""}">
-    <div class="meta"><span class="lean ${i.lean}">${LEANS[i.lean]}</span><span>${esc(i.outlet)}</span>${i.state?`<span>${i.state}</span>`:""}<span title="${new Date(i.t*1000).toLocaleString()}">${ago(i.t)}</span></div>
-    <a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`).join("")||"<p>No items match.</p>";
-  document.getElementById("more").hidden=f.length<=shown;
-  document.getElementById("stamp").textContent=`${f.length} items · scraped ${ago(data.updated)} · page refreshes every minute`;
+const card=i=>`<article class="it${i.first_seen>lastSeen&&lastSeen?" new":""}"><div class="meta">
+  <span class="b b-${i.bias.replace(/\W/g,"")}">${esc(i.bias)}</span><span>${esc(i.outlet)}</span>
+  ${i.races.map(r=>`<span class="rt" data-r="${r}">${esc(raceName(r))}</span>`).join("")}
+  <span title="${new Date(i.t*1000).toLocaleString()}">${ago(i.t)}</span></div>
+  <a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`;
+document.addEventListener("click",e=>{const r=e.target.closest(".rt");if(r){S.race=r.dataset.r;race.value=S.race;S.view="race";sync();render();scrollTo(0,0)}
+  const m=e.target.closest(".more");if(m){openRaces.has(m.dataset.r)?openRaces.delete(m.dataset.r):openRaces.add(m.dataset.r);render()}});
+function base(){return data.items.filter(i=>S.bias.has(i.bias)&&(!S.elex||i.elex)
+  &&(!S.q||(i.title+" "+i.outlet+" "+i.blurb+" "+i.races.join(" ")).toLowerCase().includes(S.q)))}
+function render(){if(!data)return;
+  const items=base();let html="",html_s="";
+  const silver=items.filter(i=>i.silver).slice(0,4), polls=items.filter(i=>i.poll&&!i.silver);
+  if(S.view!=="polls"&&!S.race) html_s=`<div class="silverbox"><h2>Nate Silver & poll trackers <span class="n">${items.filter(i=>i.poll).length} items</span></h2>${[...silver,...polls.slice(0,6-silver.length)].map(card).join("")}<button class="more" onclick="S.view='polls';sync();render()">All Silver & polls →</button></div>`;
+  else html_s="";
+  document.getElementById("silver").innerHTML=html_s;
+  if(S.view==="polls"){const ps=items.filter(i=>i.poll).sort((a,b)=>(b.silver-a.silver)||(b.t-a.t));
+    html=`<h2>Nate Silver first, then poll trackers & forecasts <span class="n">${ps.length}</span></h2>`+ps.slice(0,300).map(card).join("")}
+  else if(S.view==="latest"){const ls=items.filter(i=>!S.comp||i.comp||i.silver);
+    html=ls.slice(0,300).map(card).join("")}
+  else{const g=new Map();
+    for(const i of items)for(const r of i.races){if(!S.off.has(officeOf(r)))continue;if(S.race&&r!==S.race)continue;
+      if(S.comp&&!S.race&&!COMPETITIVE.has(r))continue;(g.get(r)||g.set(r,[]).get(r)).push(i)}
+    const groups=[...g].sort((a,b)=>(COMPETITIVE.has(b[0])-COMPETITIVE.has(a[0]))||(b[1].length-a[1].length));
+    html=groups.map(([r,its])=>{const open=openRaces.has(r)||S.race;const show=open?its:its.slice(0,4);
+      return `<h2>${esc(raceName(r))} ${COMPETITIVE.has(r)?'<span class="comp">competitive</span>':""}<span class="n">${its.length} stories · latest ${ago(its[0].t)}</span></h2>`+show.map(card).join("")
+      +(its.length>4?`<button class="more" data-r="${r}">${open?"Show fewer":"Show all "+its.length}</button>`:"")}).join("")||"<p>No race-tagged stories match. Try turning off “Competitive races only”.</p>"}
+  document.getElementById("list").innerHTML=html;
+  stamp.textContent=`${items.length} items · scraped ${ago(data.updated)} · auto-refreshes every minute`;
 }
 async function load(){
-  try{const r=await fetch("data.json?ts="+Date.now(),{cache:"no-store"});const d=await r.json();
-    const first=!data;data=d;
-    if(first){const sts=[...new Set(d.items.map(i=>i.state).filter(Boolean))].sort();
-      document.getElementById("st").innerHTML+=sts.map(s=>`<option>${s}</option>`).join("");}
+  try{const r=await fetch("data.json?ts="+Date.now(),{cache:"no-store"});const d=await r.json();data=d;
+    const counts={};d.items.forEach(i=>i.races.forEach(r=>counts[r]=(counts[r]||0)+1));
+    const cur=race.value;race.innerHTML='<option value="">All races</option>'+Object.keys(counts).sort((a,b)=>(COMPETITIVE.has(b)-COMPETITIVE.has(a))||counts[b]-counts[a])
+      .map(r=>`<option value="${r}">${raceName(r)} (${counts[r]})${COMPETITIVE.has(r)?" ★":""}</option>`).join("");race.value=cur;
     const bad=d.sources.filter(s=>!s.ok);
-    document.getElementById("hl").innerHTML=`${d.sources.length-bad.length}/${d.sources.length} feeds OK`+bad.map(s=>`<div class="bad">✗ ${esc(s.name)}: ${esc(s.err)}</div>`).join("");
+    hl.innerHTML=`${d.sources.length-bad.length}/${d.sources.length} feeds OK`+bad.map(s=>`<div class="bad">✗ ${esc(s.name)}: ${esc(s.err)}</div>`).join("");
     render();
-  }catch(e){document.getElementById("stamp").textContent="refresh failed, retrying…"}
+  }catch(e){stamp.textContent="refresh failed, retrying…"}
 }
 addEventListener("beforeunload",()=>{try{localStorage.setItem("fh_seen",data?data.updated:0)}catch(e){}});
-load();setInterval(load,60000);setInterval(render,30000);
+sync();load();setInterval(load,60000);
 </script>
 </body>
 </html>
