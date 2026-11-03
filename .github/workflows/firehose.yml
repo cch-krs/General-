@@ -1,9 +1,12 @@
 name: firehose
 on:
   schedule:
-    - cron: "*/5 * * * *"      # daytime: one scrape every 5 min
-    - cron: "40 23 3 11 *"     # 6:40 PM ET Nov 3: start real-time loop #1 (runs to 11 PM ET)
-    - cron: "45 3 4 11 *"      # 10:45 PM ET: real-time loop #2 (queues behind #1, runs to 3:15 AM ET)
+    # All times UTC (ET = UTC-5). Election-night plan:
+    - cron: "*/5 * 3 11 *"     # Nov 3 until 7 PM ET: one scrape every 5 min
+    - cron: "40 23 3 11 *"     # 6:40 PM ET: real-time loop #1 (~60s cycles) to 11 PM ET
+    - cron: "45 3 4 11 *"      # 10:45 PM ET: real-time loop #2 (queues behind #1) to 1 AM ET
+    - cron: "0 11-23 4 11 *"   # Nov 4 6 AM-6 PM ET: hourly
+    - cron: "0 0-4 5 11 *"     # Nov 4 7-11 PM ET: hourly, then paused (no further schedules)
   workflow_dispatch:
     inputs:
       loop_until:
@@ -36,7 +39,7 @@ jobs:
           git config user.email "firehose-bot@users.noreply.github.com"
           case "$SCHED" in
             "40 23 3 11 *") LOOP_UNTIL="2026-11-04T04:00Z" ;;
-            "45 3 4 11 *")  LOOP_UNTIL="2026-11-04T08:15Z" ;;
+            "45 3 4 11 *")  LOOP_UNTIL="2026-11-04T06:00Z" ;;
           esac
           end=0; [ -n "$LOOP_UNTIL" ] && end=$(date -u -d "$LOOP_UNTIL" +%s)
           i=0
