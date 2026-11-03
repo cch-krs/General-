@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Midterms Firehose</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1b1b1b;--mute:#6b6b6b;--line:#e3e3df;--accent:#0b5fff;
+--ground:#2f7d4f;--left:#2456c7;--right:#c2352b;--wire:#7a4fc0;--new:#fff6d6}
+@media (prefers-color-scheme:dark){:root{--bg:#121314;--card:#1b1c1e;--ink:#ececec;--mute:#9a9a9a;--line:#2c2d30;
+--accent:#6ea0ff;--ground:#5fbf86;--left:#7aa2ff;--right:#ff7a70;--wire:#b994ff;--new:#2e2a17}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px}
+h1{font-size:18px;margin:0 0 6px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+#stamp{font-size:12px;font-weight:400;color:var(--mute)}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input,select{font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+input[type=search]{flex:1;min-width:160px}
+main{max-width:900px;margin:0 auto;padding:8px 16px 60px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0}
+.it.new{background:var(--new)}
+.meta{font-size:12px;color:var(--mute);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lean{font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.03em}
+.lean.ground{color:var(--ground)}.lean.left{color:var(--left)}.lean.right{color:var(--right)}.lean.wire{color:var(--wire)}
+.it a{color:var(--ink);text-decoration:none;font-weight:600;display:block;margin:3px 0}
+.it a:hover{color:var(--accent);text-decoration:underline}
+.blurb{font-size:13.5px;color:var(--mute);margin:0;overflow-wrap:anywhere}
+details{margin-top:8px;font-size:13px;color:var(--mute)}
+.bad{color:var(--right)}
+#more{display:block;margin:16px auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Midterms Firehose <span id="stamp">loading…</span></h1>
+  <div class="row" id="leans"></div>
+  <div class="row" id="cats"></div>
+  <div class="row">
+    <input type="search" id="q" placeholder="Search headlines, outlets, states…">
+    <select id="st"><option value="">All states</option></select>
+    <button class="chip" id="elex" aria-pressed="true">Election only</button>
+  </div>
+</header>
+<main>
+  <div id="list"></div>
+  <button class="chip" id="more" hidden>Show more</button>
+  <details id="health"><summary>Feed health</summary><div id="hl"></div></details>
+</main>
+<script>
+const LEANS={ground:"Ground-level",left:"Left",right:"Right",wire:"Calls & data"};
+const CATS={news:"News",radio:"Public radio",offices:"Election offices",calls:"Calls/wires"};
+let data=null, shown=150, lastSeen=0;
+try{lastSeen=+localStorage.getItem("fh_seen")||0}catch(e){}
+const state={lean:new Set(Object.keys(LEANS)),cat:new Set(Object.keys(CATS)),elex:true,q:"",st:""};
+function chips(id,map,set){const el=document.getElementById(id);
+  for(const[k,v]of Object.entries(map)){const b=document.createElement("button");b.className="chip";b.textContent=v;
+    b.setAttribute("aria-pressed","true");b.onclick=()=>{set.has(k)?set.delete(k):set.add(k);b.setAttribute("aria-pressed",set.has(k));shown=150;render()};el.append(b)}}
+chips("leans",LEANS,state.lean);chips("cats",CATS,state.cat);
+document.getElementById("elex").onclick=e=>{state.elex=!state.elex;e.target.setAttribute("aria-pressed",state.elex);render()};
+document.getElementById("q").oninput=e=>{state.q=e.target.value.toLowerCase();shown=150;render()};
+document.getElementById("st").onchange=e=>{state.st=e.target.value;render()};
+document.getElementById("more").onclick=()=>{shown+=150;render()};
+const ago=t=>{const s=Date.now()/1000-t;return s<90?"just now":s<3600?Math.round(s/60)+"m ago":s<86400?Math.round(s/3600)+"h ago":Math.round(s/86400)+"d ago"};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function render(){ if(!data)return;
+  const f=data.items.filter(i=>state.lean.has(i.lean)&&state.cat.has(i.cat)&&(!state.elex||i.elex)&&(!state.st||i.state===state.st)
+    &&(!state.q||(i.title+" "+i.outlet+" "+i.blurb+" "+i.state).toLowerCase().includes(state.q)));
+  document.getElementById("list").innerHTML=f.slice(0,shown).map(i=>`<article class="it${i.first_seen>lastSeen&&lastSeen?" new":""}">
+    <div class="meta"><span class="lean ${i.lean}">${LEANS[i.lean]}</span><span>${esc(i.outlet)}</span>${i.state?`<span>${i.state}</span>`:""}<span title="${new Date(i.t*1000).toLocaleString()}">${ago(i.t)}</span></div>
+    <a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`).join("")||"<p>No items match.</p>";
+  document.getElementById("more").hidden=f.length<=shown;
+  document.getElementById("stamp").textContent=`${f.length} items · scraped ${ago(data.updated)} · page refreshes every minute`;
+}
+async function load(){
+  try{const r=await fetch("data.json?ts="+Date.now(),{cache:"no-store"});const d=await r.json();
+    const first=!data;data=d;
+    if(first){const sts=[...new Set(d.items.map(i=>i.state).filter(Boolean))].sort();
+      document.getElementById("st").innerHTML+=sts.map(s=>`<option>${s}</option>`).join("");}
+    const bad=d.sources.filter(s=>!s.ok);
+    document.getElementById("hl").innerHTML=`${d.sources.length-bad.length}/${d.sources.length} feeds OK`+bad.map(s=>`<div class="bad">✗ ${esc(s.name)}: ${esc(s.err)}</div>`).join("");
+    render();
+  }catch(e){document.getElementById("stamp").textContent="refresh failed, retrying…"}
+}
+addEventListener("beforeunload",()=>{try{localStorage.setItem("fh_seen",data?data.updated:0)}catch(e){}});
+load();setInterval(load,60000);setInterval(render,30000);
+</script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+[
+ {
+  "name": "Votebeat",
+  "url": "https://www.votebeat.org/arc/outboundfeeds/rss/?outputType=xml",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Bolts",
+  "url": "https://boltsmag.org/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Texas Tribune",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:texastribune.org+when:1d",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Bridge Michigan",
+  "url": "https://www.bridgemi.com/rss.xml",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Spotlight PA",
+  "url": "https://www.spotlightpa.org/feeds/full.xml",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Gothamist",
+  "url": "https://gothamist.com/feed",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "THE CITY",
+  "url": "https://www.thecity.nyc/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "City & State NY",
+  "url": "https://www.cityandstateny.com/rss/all/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Hell Gate",
+  "url": "https://hellgatenyc.com/all-posts/rss/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Stateline",
+  "url": "https://stateline.org/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Mississippi Today",
+  "url": "https://mississippitoday.org/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "CalMatters",
+  "url": "https://calmatters.org/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Votebeat (Google News)",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:votebeat.org+when:1d",
+  "lean": "ground",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Alabama Reflector",
+  "url": "https://alabamareflector.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "AL"
+ },
+ {
+  "name": "Alaska Beacon",
+  "url": "https://alaskabeacon.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "AK"
+ },
+ {
+  "name": "Arizona Mirror",
+  "url": "https://azmirror.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "AZ"
+ },
+ {
+  "name": "Arkansas Advocate",
+  "url": "https://arkansasadvocate.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "AR"
+ },
+ {
+  "name": "Colorado Newsline",
+  "url": "https://coloradonewsline.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "CO"
+ },
+ {
+  "name": "Daily Montanan",
+  "url": "https://dailymontanan.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "MT"
+ },
+ {
+  "name": "Florida Phoenix",
+  "url": "https://floridaphoenix.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "FL"
+ },
+ {
+  "name": "Georgia Recorder",
+  "url": "https://georgiarecorder.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "GA"
+ },
+ {
+  "name": "Idaho Capital Sun",
+  "url": "https://idahocapitalsun.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "ID"
+ },
+ {
+  "name": "Indiana Capital Chronicle",
+  "url": "https://indianacapitalchronicle.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "IN"
+ },
+ {
+  "name": "Iowa Capital Dispatch",
+  "url": "https://iowacapitaldispatch.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "IA"
+ },
+ {
+  "name": "Kansas Reflector",
+  "url": "https://kansasreflector.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "KS"
+ },
+ {
+  "name": "Kentucky Lantern",
+  "url": "https://kentuckylantern.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "KY"
+ },
+ {
+  "name": "Louisiana Illuminator",
+  "url": "https://lailluminator.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "LA"
+ },
+ {
+  "name": "Maine Morning Star",
+  "url": "https://mainemorningstar.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "ME"
+ },
+ {
+  "name": "Maryland Matters",
+  "url": "https://marylandmatters.org/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "MD"
+ },
+ {
+  "name": "Michigan Advance",
+  "url": "https://michiganadvance.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "MI"
+ },
+ {
+  "name": "Minnesota Reformer",
+  "url": "https://minnesotareformer.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "MN"
+ },
+ {
+  "name": "Missouri Independent",
+  "url": "https://missouriindependent.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "MO"
+ },
+ {
+  "name": "Nebraska Examiner",
+  "url": "https://nebraskaexaminer.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "NE"
+ },
+ {
+  "name": "Nevada Current",
+  "url": "https://nevadacurrent.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "NV"
+ },
+ {
+  "name": "New Hampshire Bulletin",
+  "url": "https://newhampshirebulletin.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "NH"
+ },
+ {
+  "name": "New Jersey Monitor",
+  "url": "https://newjerseymonitor.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "NJ"
+ },
+ {
+  "name": "Source NM",
+  "url": "https://sourcenm.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "NM"
+ },
+ {
+  "name": "NC Newsline",
+  "url": "https://ncnewsline.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "NC"
+ },
+ {
+  "name": "North Dakota Monitor",
+  "url": "https://northdakotamonitor.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "ND"
+ },
+ {
+  "name": "Ohio Capital Journal",
+  "url": "https://ohiocapitaljournal.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "OH"
+ },
+ {
+  "name": "Oklahoma Voice",
+  "url": "https://oklahomavoice.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "OK"
+ },
+ {
+  "name": "Oregon Capital Chronicle",
+  "url": "https://oregoncapitalchronicle.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "OR"
+ },
+ {
+  "name": "Pennsylvania Capital-Star",
+  "url": "https://penncapital-star.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "PA"
+ },
+ {
+  "name": "Rhode Island Current",
+  "url": "https://rhodeislandcurrent.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "RI"
+ },
+ {
+  "name": "SC Daily Gazette",
+  "url": "https://scdailygazette.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "SC"
+ },
+ {
+  "name": "South Dakota Searchlight",
+  "url": "https://southdakotasearchlight.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "SD"
+ },
+ {
+  "name": "Tennessee Lookout",
+  "url": "https://tennesseelookout.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "TN"
+ },
+ {
+  "name": "Utah News Dispatch",
+  "url": "https://utahnewsdispatch.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "UT"
+ },
+ {
+  "name": "Virginia Mercury",
+  "url": "https://virginiamercury.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "VA"
+ },
+ {
+  "name": "Washington State Standard",
+  "url": "https://washingtonstatestandard.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "WA"
+ },
+ {
+  "name": "West Virginia Watch",
+  "url": "https://westvirginiawatch.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "WV"
+ },
+ {
+  "name": "Wisconsin Examiner",
+  "url": "https://wisconsinexaminer.com/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "WI"
+ },
+ {
+  "name": "Mississippi Free Press",
+  "url": "https://mississippifreepress.org/feed/",
+  "lean": "ground",
+  "cat": "news",
+  "state": "MS"
+ },
+ {
+  "name": "NPR Politics",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:npr.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": ""
+ },
+ {
+  "name": "WUNC",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wunc.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "NC"
+ },
+ {
+  "name": "WHYY",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:whyy.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "PA"
+ },
+ {
+  "name": "WESA",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wesa.fm+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "PA"
+ },
+ {
+  "name": "Michigan Public",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:michiganpublic.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "MI"
+ },
+ {
+  "name": "WPR",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wpr.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "WI"
+ },
+ {
+  "name": "GPB",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:gpb.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "GA"
+ },
+ {
+  "name": "WABE",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wabe.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "GA"
+ },
+ {
+  "name": "KJZZ",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:kjzz.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "AZ"
+ },
+ {
+  "name": "KUNR / Nevada Public Radio",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:knpr.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "NV"
+ },
+ {
+  "name": "KQED",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:kqed.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "CA"
+ },
+ {
+  "name": "LAist",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:laist.com+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "CA"
+ },
+ {
+  "name": "WNYC",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wnyc.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "NY"
+ },
+ {
+  "name": "WBUR",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wbur.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "MA"
+ },
+ {
+  "name": "NHPR",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:nhpr.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "NH"
+ },
+ {
+  "name": "Maine Public",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:mainepublic.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "ME"
+ },
+ {
+  "name": "MPR News",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:mprnews.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "MN"
+ },
+ {
+  "name": "KUT",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:kut.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "TX"
+ },
+ {
+  "name": "Texas Standard",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:texasstandard.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "TX"
+ },
+ {
+  "name": "Iowa Public Radio",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:iowapublicradio.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "IA"
+ },
+ {
+  "name": "Ohio Public Radio / Statehouse News",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:statenews.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "OH"
+ },
+ {
+  "name": "VPM",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:vpm.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "VA"
+ },
+ {
+  "name": "WAMU",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wamu.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "DC"
+ },
+ {
+  "name": "Colorado Public Radio",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:cpr.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "CO"
+ },
+ {
+  "name": "OPB",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:opb.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "OR"
+ },
+ {
+  "name": "Alaska Public Media",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:alaskapublic.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "AK"
+ },
+ {
+  "name": "Montana Free Press",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:montanafreepress.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "MT"
+ },
+ {
+  "name": "Nebraska Public Media",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:nebraskapublicmedia.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "NE"
+ },
+ {
+  "name": "WFAE",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:wfae.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "NC"
+ },
+ {
+  "name": "WMFE / Central Florida Public Media",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:cfpublic.org+election+when:1d",
+  "lean": "ground",
+  "cat": "radio",
+  "state": "FL"
+ },
+ {
+  "name": "County election offices",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=\"county+elections\"+OR+\"board+of+elections\"+OR+\"county+clerk\"+results+when:1d",
+  "lean": "ground",
+  "cat": "offices",
+  "state": ""
+ },
+ {
+  "name": "Secretaries of State",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=\"secretary+of+state\"+election+results+2026+when:1d",
+  "lean": "ground",
+  "cat": "offices",
+  "state": ""
+ },
+ {
+  "name": "Election administration problems",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=(polling+place+OR+ballots+OR+\"voting+machines\")+delay+OR+extended+OR+problem+when:1d",
+  "lean": "ground",
+  "cat": "offices",
+  "state": ""
+ },
+ {
+  "name": "TPM",
+  "url": "https://talkingpointsmemo.com/feed",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "The Downballot",
+  "url": "https://www.the-downballot.com/feed",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "MS NOW",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:ms.now+when:1d",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Mother Jones",
+  "url": "https://www.motherjones.com/feed/",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Daily Kos Elections",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:dailykos.com+election+when:1d",
+  "lean": "left",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "National Review",
+  "url": "https://www.nationalreview.com/feed/",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/feed/",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "The Dispatch",
+  "url": "https://thedispatch.com/feed/",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Free Beacon",
+  "url": "https://freebeacon.com/feed/",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Daily Wire",
+  "url": "https://www.dailywire.com/feeds/rss.xml",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "Washington Examiner (GN)",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:washingtonexaminer.com+election+when:1d",
+  "lean": "right",
+  "cat": "news",
+  "state": ""
+ },
+ {
+  "name": "AP",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:apnews.com+election+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "AP race calls",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=\"AP\"+\"race+call\"+OR+\"projected+winner\"+OR+\"wins+election\"+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "DDHQ (GN)",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=decision+desk+HQ+projects+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Reuters",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:reuters.com+election+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Split Ticket",
+  "url": "https://split-ticket.org/feed/",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Cook Political",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:cookpolitical.com+when:2d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Sabato's Crystal Ball",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:centerforpolitics.org+when:3d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "NYT Elections",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:nytimes.com+election+results+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ },
+ {
+  "name": "Politico Elections",
+  "url": "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q=site:politico.com+election+when:1d",
+  "lean": "wire",
+  "cat": "calls",
+  "state": ""
+ }
+]
