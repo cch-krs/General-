@@ -5,8 +5,9 @@ on:
     - cron: "*/5 * 3 11 *"     # Nov 3 until 7 PM ET: one scrape every 5 min
     - cron: "40 23 3 11 *"     # 6:40 PM ET: real-time loop #1 (~60s cycles) to 11 PM ET
     - cron: "45 3 4 11 *"      # 10:45 PM ET: real-time loop #2 (queues behind #1) to 1 AM ET
-    - cron: "0 11-23 4 11 *"   # Nov 4 6 AM-6 PM ET: hourly
-    - cron: "0 0-4 5 11 *"     # Nov 4 7-11 PM ET: hourly, then paused (no further schedules)
+    - cron: "0 11 4 11 *"      # Nov 4 6 AM ET: real-time loop to 11:50 AM ET
+    - cron: "55 16 4 11 *"     # 11:55 AM ET: real-time loop to 5:40 PM ET
+    - cron: "45 22 4 11 *"     # 5:45 PM ET: real-time loop to 11 PM ET, then paused (no further schedules)
   workflow_dispatch:
     inputs:
       loop_until:
@@ -21,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350
     concurrency:
-      group: ${{ (github.event.schedule == '40 23 3 11 *' || github.event.schedule == '45 3 4 11 *' || inputs.loop_until != '') && 'firehose-loop' || 'firehose-single' }}
+      group: ${{ ((github.event_name == 'schedule' && github.event.schedule != '*/5 * 3 11 *') || inputs.loop_until != '') && 'firehose-loop' || 'firehose-single' }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +41,9 @@ jobs:
           case "$SCHED" in
             "40 23 3 11 *") LOOP_UNTIL="2026-11-04T04:00Z" ;;
             "45 3 4 11 *")  LOOP_UNTIL="2026-11-04T06:00Z" ;;
+            "0 11 4 11 *")  LOOP_UNTIL="2026-11-04T16:50Z" ;;
+            "55 16 4 11 *") LOOP_UNTIL="2026-11-04T22:40Z" ;;
+            "45 22 4 11 *") LOOP_UNTIL="2026-11-05T04:00Z" ;;
           esac
           end=0; [ -n "$LOOP_UNTIL" ] && end=$(date -u -d "$LOOP_UNTIL" +%s)
           i=0
