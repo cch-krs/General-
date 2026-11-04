@@ -12,8 +12,25 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px}
-h1{font-size:18px;margin:0;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-#stamp{font-size:12px;font-weight:400;color:var(--mute)}
+h1{font-size:18px;margin:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#stamp{font-size:12px;color:var(--mute);margin-top:2px}
+.scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.scroll>span{display:flex;gap:6px;flex:none}
+.chip,.lbl{flex:none;white-space:nowrap}
+.ftog[aria-expanded=true]{background:var(--ink);color:var(--bg)}
+@media (max-width:700px){
+  header{padding:8px 16px}
+  #filters{display:none;max-height:60vh;overflow-y:auto}
+  header.open #filters{display:block}
+  .chip{padding:7px 12px;font-size:14px}
+  input,select{font-size:16px}
+  .it{padding:11px 12px}
+  .it a{font-size:16px;line-height:1.3}
+  .silverbox{padding:4px 10px 8px}
+}
+@media (min-width:701px){.ftog{display:none}}
 .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;align-items:center}
 .lbl{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
 .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
@@ -44,16 +61,20 @@ details{margin-top:20px;font-size:13px;color:var(--mute)}
 </head>
 <body>
 <header>
-  <h1>Midterms Firehose <span id="stamp">loading…</span></h1>
-  <div class="row"><span class="lbl">View</span><span id="views"></span>
+  <div class="top"><h1>Midterms Firehose</h1><button class="chip ftog" id="ftog" aria-expanded="false">Filters</button></div>
+  <div id="stamp">loading…</div>
+  <div class="row scroll"><span id="views"></span></div>
+  <div id="filters">
+  <div class="row scroll"><span class="lbl">Show</span>
     <button class="chip" id="comp" aria-pressed="true">Competitive races only</button>
     <button class="chip" id="elex" aria-pressed="true">Election only</button></div>
-  <div class="row"><span class="lbl">Published</span><span id="ages"></span>
+  <div class="row scroll"><span class="lbl">Published</span><span id="ages"></span>
     <button class="chip" id="hideold" aria-pressed="true">Hide reposts &amp; resurfaced</button></div>
-  <div class="row"><span class="lbl">Bias (est.)</span><span id="biases"></span></div>
-  <div class="row"><span class="lbl">Office</span><span id="offices"></span>
-    <input type="search" id="q" placeholder="Search headlines, outlets, candidates…">
+  <div class="row scroll"><span class="lbl">Bias (est.)</span><span id="biases"></span></div>
+  <div class="row scroll"><span class="lbl">Office</span><span id="offices"></span></div>
+  <div class="row"><input type="search" id="q" placeholder="Search headlines, outlets, candidates…">
     <select id="race"><option value="">All races</option></select></div>
+  </div>
 </header>
 <main>
   <div id="silver"></div>
@@ -81,6 +102,7 @@ const syncs=[chipGroup("views",VIEWS,k=>S.view===k,k=>S.view=k),
   chipGroup("offices",OFFICES,k=>S.off.has(k),k=>S.off.has(k)?S.off.delete(k):S.off.add(k)),
   chipGroup("ages",AGES,k=>S.age==k,k=>S.age=+k)];
 function sync(){syncs.forEach(f=>f());hideold.setAttribute("aria-pressed",S.hideold);comp.setAttribute("aria-pressed",S.comp);elex.setAttribute("aria-pressed",S.elex)}
+ftog.onclick=()=>{const o=document.querySelector("header").classList.toggle("open");ftog.setAttribute("aria-expanded",o);ftog.textContent=o?"Done":"Filters"};
 hideold.onclick=()=>{S.hideold=!S.hideold;sync();render()};
 comp.onclick=()=>{S.comp=!S.comp;sync();render()};elex.onclick=()=>{S.elex=!S.elex;sync();render()};
 q.oninput=e=>{S.q=e.target.value.toLowerCase();render()};
@@ -114,7 +136,7 @@ function render(){if(!data)return;
       return `<h2>${esc(raceName(r))} ${COMPETITIVE.has(r)?'<span class="comp">competitive</span>':""}<span class="n">${its.length} stories · latest ${ago(its[0].t)}</span></h2>`+show.map(card).join("")
       +(its.length>4?`<button class="more" data-r="${r}">${open?"Show fewer":"Show all "+its.length}</button>`:"")}).join("")||"<p>No race-tagged stories match. Try turning off “Competitive races only”.</p>"}
   document.getElementById("list").innerHTML=html;
-  stamp.textContent=`${items.length} items · scraped ${ago(data.updated)} · auto-refreshes every 30s`;
+  stamp.textContent=`${items.length} items · updated ${ago(data.updated)} · refreshes every 30s`;
 }
 async function load(){
   try{const r=await fetch("data.json?ts="+Date.now(),{cache:"no-store"});const d=await r.json();data=d;
