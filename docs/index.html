@@ -91,7 +91,7 @@ const card=i=>`<article class="it${i.first_seen>lastSeen&&lastSeen?" new":""}"><
   <span class="b b-${i.bias.replace(/\W/g,"")}">${esc(i.bias)}</span><span>${esc(i.outlet)}</span>
   ${i.races.map(r=>`<span class="rt" data-r="${r}">${esc(raceName(r))}</span>`).join("")}
   <span title="Published ${new Date(i.t*1000).toLocaleString()}">published ${ago(i.t)}</span>${i.resurfaced?'<span class="b b-Unrated">resurfaced</span>':""}</div>
-  <a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.also&&i.also.length?`<p class="blurb">Also in: ${esc(i.also.slice(0,5).join(", "))}${i.also.length>5?` +${i.also.length-5}`:""}</p>`:""}${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`;
+  <a href="${esc(i.out||i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a>${i.also&&i.also.length?`<p class="blurb">Also in: ${esc(i.also.slice(0,5).join(", "))}${i.also.length>5?` +${i.also.length-5}`:""}</p>`:""}${i.blurb?`<p class="blurb">${esc(i.blurb)}</p>`:""}</article>`;
 document.addEventListener("click",e=>{const r=e.target.closest(".rt");if(r){S.race=r.dataset.r;race.value=S.race;S.view="race";sync();render();scrollTo(0,0)}
   const m=e.target.closest(".more");if(m){openRaces.has(m.dataset.r)?openRaces.delete(m.dataset.r):openRaces.add(m.dataset.r);render()}});
 function base(){const cut=Date.now()/1000-S.age*3600;return data.items.filter(i=>i.t>=cut&&(!S.hideold||!(i.resurfaced||i.undated))&&S.bias.has(i.bias)&&(!S.elex||i.elex)

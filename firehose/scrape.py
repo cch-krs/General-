@@ -1,9 +1,11 @@
 """Election-night firehose: fetch every feed in sources.json, merge into docs/data.json."""
-import json, re, html, time, hashlib, sys, os
+import json, re, html, time, hashlib, sys, os, urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 from urllib.request import Request, urlopen
 import feedparser
 from classify import tag
+from gnews import decode, RateLimited
+GN_BUDGET = int(os.environ.get("GN_BUDGET", "25"))  # max Google News links resolved per run
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "..", "docs", "data.json")
@@ -44,10 +46,11 @@ def fetch(src):
                 outlet = f'{e["source"]["title"]}'
                 title = re.sub(r"\s+-\s+" + re.escape(outlet) + r"$", "", title)
             blurb = "" if "news.google.com" in src["url"] else clean(e.get("summary"))
+            pub = (e.get("source") or {}).get("href", "") if "news.google.com" in src["url"] else ""
             items.append(dict(
                 id=hashlib.sha1(link.encode()).hexdigest()[:16], title=title, link=link, blurb=blurb,
                 outlet=outlet, feed=src["name"], lean=src["lean"], cat=src["cat"], state=src.get("state", ""),
-                t=ts(e), elex=bool(ELEX.search(title + " " + blurb))))
+                t=ts(e), elex=bool(ELEX.search(title + " " + blurb)), pub=pub))
             tag(items[-1], src)
         return src, items, dict(ok=True, n=len(items), ms=int((time.time()-t0)*1000))
     except Exception as ex:
@@ -61,6 +64,7 @@ def main():
     except Exception:
         old = {"items": []}
     seen = {i["id"]: i for i in old.get("items", [])}
+    resolved = {i["id"]: i["link"] for i in old.get("items", []) if i.get("gn")}  # id -> publisher URL
     status = []
     skip_gn = os.environ.get("SKIP_GN") == "1"  # fast loop: spare Google News, refresh direct feeds only
     old_status = {x["name"]: x for x in old.get("sources", [])}
@@ -102,10 +106,41 @@ def main():
         keep["resurfaced"] = (keep["first_seen"] - keep["t"]) > RESURFACE_H * 3600
         items.append(keep)
     items = sorted(items, key=lambda i: -i["t"])[:MAX_ITEMS]
+    # swap Google News redirect links for the publisher's own URL (cached; newest first; capped per run)
+    budget, n_ok = GN_BUDGET, 0
+    for it in items:
+        if "news.google.com" not in it["link"]:
+            continue
+        if it["id"] in resolved:
+            it["gn"], it["link"] = it["link"], resolved[it["id"]]
+            continue
+        if budget <= 0:
+            continue
+        budget -= 1
+        try:
+            real = decode(it["link"])
+            it["gn"], it["link"] = it["link"], real
+            resolved[it["id"]] = real
+            n_ok += 1
+            time.sleep(0.4)
+        except RateLimited:
+            print("  Google News rate-limited; resolving the rest next run")
+            budget = 0
+        except Exception:
+            pass
+    # anything still on a Google redirect: send the click straight to the publisher via a first-result search
+    for it in items:
+        if "news.google.com" in it["link"]:
+            dom = urllib.parse.urlparse(it.get("pub") or "").netloc.replace("www.", "")
+            q = f'\\{it["title"]}' + (f" site:{dom}" if dom else "")
+            it["out"] = "https://duckduckgo.com/?q=" + urllib.parse.quote(q)
+        else:
+            it.pop("out", None)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(dict(updated=now, sources=status, items=items), open(OUT, "w"), separators=(",", ":"))
     ok = sum(s["ok"] for s in status)
-    print(f"{ok}/{len(status)} feeds ok, {len(items)} items")
+    left = sum("news.google.com" in i["link"] for i in items)
+    print(f"{ok}/{len(status)} feeds ok, {len(items)} items; resolved {n_ok} Google News links this run, {left} still pending")
     for s in status:
         if not s["ok"]:
             print("  FAIL", s["name"], s["err"])
